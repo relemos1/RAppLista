@@ -14,6 +14,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.replista.m3u.ui.screens.PlayerScreen
 import com.replista.m3u.ui.theme.RepListaM3uTheme
 import com.replista.m3u.ui.viewmodel.PlayerViewModel
@@ -28,8 +31,8 @@ class MainActivity : ComponentActivity() {
         // Mantém a tela ligada durante a reprodução da TV
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        // Oculta barras do sistema para modo imersivo tela cheia
-        hideSystemUI()
+        // Configura tela cheia imersiva de forma compatível
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
             RepListaM3uTheme {
@@ -100,22 +103,14 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun hideSystemUI() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.let { controller ->
-                controller.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                controller.systemBarsBehavior =
-                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        } else {
-            @Suppress("DEPRECATION")
-            window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-            )
+        try {
+            val decorView = window.peekDecorView() ?: window.decorView
+            val controller = WindowCompat.getInsetsController(window, decorView)
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } catch (_: Exception) {
+            // Garante que nenhuma exceção de insets impeça a inicialização da tela
         }
     }
 }
