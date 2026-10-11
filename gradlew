@@ -117,18 +117,16 @@ if [ "$cygwin" = "false" -a "$darwin" = "false" -a "$nonstop" = "false" ] ; then
     esac
 fi
 
-# Collect all arguments for the java command, following the shell quoting and substitution
-# rules, and appending them to the java command line.
+APP_ARGS=""
 for arg in "$@" ; do
     CHECK=`expr "x$arg" : "x\(-D.*=[^ ']*\)"`
     if [ "$CHECK" ] ; then
-        JAVACMD="$JAVACMD $arg"
+        APP_ARGS="$APP_ARGS $arg"
     else
-        JAVACMD="$JAVACMD \"$arg\""
+        APP_ARGS="$APP_ARGS \"$arg\""
     fi
 done
 
-eval "set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS \"-Dorg.gradle.appname=$APP_BASE_NAME\" -classpath \"$CLASSPATH\" org.gradle.wrapper.GradleWrapperMain $JAVACMD"
+eval "set -- $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS \"-Dorg.gradle.appname=$APP_BASE_NAME\" -classpath \"$CLASSPATH\" org.gradle.wrapper.GradleWrapperMain $APP_ARGS"
 
-# By default, we run in the background
 exec "$JAVACMD" "$@"
