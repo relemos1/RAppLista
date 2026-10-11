@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">RepListaM3u</string>
+    <string name="em_exibicao">EM EXIBIÇÃO</string>
+    <string name="proximo_programa">PRÓXIMO PROGRAMA</string>
+    <string name="ao_vivo">Ao vivo</string>
+    <string name="canal_selecionado">Canal selecionado</string>
+    <string name="hint_canais">↑↓ Canais</string>
+    <string name="hint_proximo">→ Próximo</string>
+    <string name="hint_assistir">OK Assistir</string>
+    <string name="hint_fechar">Voltar Fechar</string>
+    <string name="carregando_lista">Carregando canais...</string>
+    <string name="carregando_video">Conectando ao canal...</string>
+    <string name="sem_programacao">Programação ao vivo</string>
+</resources>
