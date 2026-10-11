@@ -40,10 +40,11 @@ class PlayerController(private val context: Context) {
             .setReadTimeoutMs(20000)
             .setUserAgent("Mozilla/5.0 (Linux; Android 10; TV) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36")
 
-        val dataSourceFactory = DefaultDataSource.Factory(context, httpDataSourceFactory)
+        val appContext = context.applicationContext
+        val dataSourceFactory = DefaultDataSource.Factory(appContext, httpDataSourceFactory)
         val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory)
 
-        val player = ExoPlayer.Builder(context)
+        val player = ExoPlayer.Builder(appContext)
             .setMediaSourceFactory(mediaSourceFactory)
             .build()
 

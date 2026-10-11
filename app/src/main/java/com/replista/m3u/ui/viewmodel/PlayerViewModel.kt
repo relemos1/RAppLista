@@ -16,10 +16,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
-    application: Application,
-    private val repository: PlaylistRepository = PlaylistRepository(),
-    val playerController: PlayerController = PlayerController(application)
+    application: Application
 ) : AndroidViewModel(application) {
+
+    private val repository: PlaylistRepository = PlaylistRepository()
+    val playerController: PlayerController = PlayerController(application)
 
     val channels: StateFlow<List<Channel>> = repository.channels
     val isLoadingChannels: StateFlow<Boolean> = repository.isLoading
